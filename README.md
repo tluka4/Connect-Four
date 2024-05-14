@@ -1,2 +1,2 @@
 # Connect-Four
-Connect 4 game
+Connect 4 Game
