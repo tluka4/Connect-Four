@@ -1,16 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
-    <title>Connect 4</title>
-</head>
-<body>
-    <div class="Game Board">
-        <img src="./images/Connect4Board.png">
-    </div>
+    <head>
+        <title>Connect 4</title>
+        <style>
+            /* Style the game board */
+            #game-board {
+                display: grid;
+                grid-template-columns: repeat(7, 50px); /* 7 columns */
+                grid-template-rows: repeat(6, 50px); /* 6 rows */
+                gap: 5px;
+                border: 1px solid black;
+                margin: 20px auto;
+                width: fit-content;
+                padding: 5px;
+            }
+            .cell {
+                width: 50px;
+                height: 50px;
+                border: 1px solid black;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: lightblue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="game-board"></div>
     
-    <script src="script.js"></script>
-</body>
-</html>
+        <script>
+            const gameBoard = [
+                [0, 0, 0, 0, 0, 0, 0], // 0 represents an empty cell
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0]
+            ];
+    
+            const boardElement = document.getElementById('game-board');
+    
+            // Render the game board
+            function renderBoard() {
+                boardElement.innerHTML = '';
+                for (let row = 0; row < gameBoard.length; row++) {
+                    for (let col = 0; col < gameBoard[row].length; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'cell';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        cell.addEventListener('click', () => handleMove(col));
+                        boardElement.appendChild(cell);
+                    }
+                }
+            }
+    
+            // Handle a player move
+            function handleMove(col) {
+                // Find the lowest empty row in the selected column
+                let row = gameBoard.length - 1;
+                while (row >= 0 && gameBoard[row][col] !== 0) {
+                    row--;
+                }
+    
+                // If the column is full, do nothing
+                if (row < 0) return;
+    
+                // Update the game board and re-render
+                gameBoard[row][col] = 1; // Assuming player 1 for now
+                renderBoard();
+            }
+    
+            renderBoard();
+        </script>
+    </body>
+    </html>
